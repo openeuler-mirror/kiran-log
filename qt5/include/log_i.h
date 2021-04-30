@@ -1,9 +1,10 @@
-#ifndef __KIRAN_LOG_QT5_H__
-#define __KIRAN_LOG_QT5_H__
+//
+// Created by lxh on 2021/4/30.
+//
 
-#include <QDebug>
-#include <QString>
-#include <QtGlobal>
+#ifndef KIRAN_LOG_QT5_INCLUDE_LOG_I_H_
+#define KIRAN_LOG_QT5_INCLUDE_LOG_I_H_
+
 ///NOTE:可见qlogging.h，未定义"QT_MESSAGELOGCONTEXT"将导致QDebug上下文没文件、行号、函数等信息,为了不影响Qt流程，直接使用QMessageLogger,将上下文信息塞入
 
 ///NOTE:
@@ -47,60 +48,35 @@
     } while (0)
 #define KLOG_DEBUG_S QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).debug
 
-#define KLOG_COUT(format, ...)              \
+#define KLOG_COUT(format, ...)             \
     do                                      \
     {                                       \
         dzlog_cout(format, ##__VAR_ARGS__); \
     } while (0);
 
-#define KLOG_CSYS(format, ...)              \
+#define KLOG_CSYS(format, ...)             \
     do                                      \
     {                                       \
         dzlog_csys(format, ##__VAR_ARGS__); \
     } while (0);
 
-#define KLOG_CERR(format, ...)              \
+#define KLOG_CERR(format, ...)             \
     do                                      \
     {                                       \
         dzlog_cerr(format, ##__VAR_ARGS__); \
     } while (0);
-class Log
-{
-    friend void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
-public:
-    /**
-     * @brief: 获取Log类单例
-     * @return Log类单例
-     */
-    static Log *instance();
-    ~Log();
+/**
+ * @brief 初始化日志库，安装Qt日志输出回调
+ * @param config        zlog配置文件
+ * @param cname         zlog分类名
+ * @param project_name  项目名称
+ * @param program_name  二进制程序名
+ * @return 是否初始化成功，当返回值为0表示成功
+ */
+int kiran_log_qt5_init(const QString& config,
+                       const QString& cname,
+                       const QString& project_name,
+                       const QString& program_name);
 
-    /**
-     * @brief: 初始化zlog日志库,注册Qt日志消息回调方法
-     * \param config       zlog配置文件 @see zlog_ex.h dzlog_init_ex
-     * \param cname        zlog分类名 @see zlog_ex.h dzlog_init_ex
-     * \param projectName  项目名称 @see zlog_ex.h dzlog_init_ex
-     * \param programName  二进制程序名 @see zlog_ex.h dzlog_init_ex
-     * \return 是否初始化成功，当返回值为0表示成功
-     */
-    int init(const QString &config,
-             const QString &cname,
-             const QString &projectName,
-             const QString &programName);
-
-    /**
-     * @brief: 获取是否初始化完成
-     * \return 是否初始化完成
-     */
-    bool isInited();
-
-private:
-    Log();
-    void appendLog(QtMsgType type, const QMessageLogContext &context, const QString &msg);
-
-private:
-    bool m_isInited;
-};
-
-#endif  //__KIRAN_LOG_QT5_H__
+#endif  //KIRAN_LOG_QT5_INCLUDE_LOG_I_H_

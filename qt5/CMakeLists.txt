@@ -19,18 +19,23 @@ find_package(Qt5 COMPONENTS Core)
 find_package(PkgConfig REQUIRED)
 pkg_search_module(ZLOG REQUIRED zlog)
 
-add_library(${PROJECT_NAME} SHARED src/log.cpp src/log.h)
+add_library(${PROJECT_NAME} SHARED src/log.cpp src/log.h include/log_i.h)
 set_target_properties(${PROJECT_NAME} PROPERTIES
         VERSION   ${KIRAN_LOG_QT5_VERSION}
         SOVERSION ${KIRAN_LOG_QT5_API_VERSION})
-target_link_libraries(${PROJECT_NAME} Qt5::Core ${ZLOG_LIBRARIES})
-target_include_directories(${PROJECT_NAME} PRIVATE ${ZLOG_INCLUDE_DIRS})
+
+target_link_libraries(${PROJECT_NAME}
+        Qt5::Core
+        ${ZLOG_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PRIVATE
+        ./include
+        ${ZLOG_INCLUDE_DIRS})
 
 include(GNUInstallDirs)
 set(KIRAN_LOG_QT5_LIB_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 install(TARGETS ${PROJECT_NAME} DESTINATION ${KIRAN_LOG_QT5_LIB_DIR})
 
-set(DEVEL_HEADERS "src/log.h")
+file(GLOB DEVEL_HEADERS "./include/*.h")
 set(KIRAN_LOG_QT5_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/kiran-log/qt5)
 install(FILES ${DEVEL_HEADERS} DESTINATION ${KIRAN_LOG_QT5_INCLUDE_DIR})
 
