@@ -1,8 +1,17 @@
 #include "log.h"
+#include "log_i.h"
 
 #include <zlog_ex.h>
 #include <QMutex>
 #include <iostream>
+
+int kiran_log_qt5_init(const QString& config,
+                       const QString& cname,
+                       const QString& project_name,
+                       const QString& program_name)
+{
+    return Log::instance()->init(config, cname, program_name, program_name);
+}
 
 /**
  * @brief qInstallMessageHandler回调函数
@@ -10,7 +19,7 @@
  * @param context  Qt日志消息上下文(暂时不用,直接将相关信息拼凑到消息主体中)
  * @param msg      Qt日志消息主体
  */
-void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void messageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
     Log::instance()->appendLog(type, context, msg);
 }
@@ -36,11 +45,11 @@ Log::~Log()
 {
 }
 
-bool Log::init(const QString& config, const QString& cname, const QString& projectName, const QString& programName)
+int Log::init(const QString& config, const QString& cname, const QString& projectName, const QString& programName)
 {
-    if(!isInited())
+    if (!isInited())
     {
-        return true;
+        return 0;
     }
 
     if (dzlog_init_ex(config.toLatin1().data(),
@@ -49,12 +58,12 @@ bool Log::init(const QString& config, const QString& cname, const QString& proje
                       programName.toLatin1().data()) != 0)
     {
         std::cerr << "zlog init failed!" << std::endl;
-        return false;
+        return -1;
     }
 
     qInstallMessageHandler(messageHandler);
     m_isInited = true;
-    return true;
+    return 0;
 }
 
 void Log::appendLog(QtMsgType type, const QMessageLogContext& context, const QString& msg)
