@@ -1,0 +1,10 @@
+LibDir=@KIRAN_LOG_QT5_LIB_DIR@
+IncludeDir=@KIRAN_LOG_QT5_INCLUDE_DIR@
+LibVersion=@KIRAN_LOG_QT5_VERSION@
+
+Name: @PROJECT_NAME@
+Description: kiran desktop widgets
+Version: ${LibVersion}
+Requires:   Qt5Core zlog
+Libs: -L${LibDir}  -l@PROJECT_NAME@
+Cflags: -I${IncludeDir}
