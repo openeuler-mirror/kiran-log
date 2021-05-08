@@ -47,12 +47,13 @@ Log::~Log()
 
 int Log::init(const QString& config, const QString& cname, const QString& projectName, const QString& programName)
 {
-    if (!isInited())
+    if (isInited())
     {
+        std::cerr << "kiran-log-qt5 is already inited!" << std::endl;
         return 0;
     }
 
-    if (dzlog_init_ex(config.toLatin1().data(),
+    if (dzlog_init_ex(config.isEmpty()?nullptr:config.toLatin1().data(),
                       cname.toLatin1().data(),
                       programName.toLatin1().data(),
                       programName.toLatin1().data()) != 0)
