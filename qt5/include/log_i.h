@@ -5,6 +5,10 @@
 #ifndef KIRAN_LOG_QT5_INCLUDE_LOG_I_H_
 #define KIRAN_LOG_QT5_INCLUDE_LOG_I_H_
 
+#include <QDebug>
+#include <QtGlobal>
+#include <zlog_ex.h>
+
 ///NOTE:可见qlogging.h，未定义"QT_MESSAGELOGCONTEXT"将导致QDebug上下文没文件、行号、函数等信息,为了不影响Qt流程，直接使用QMessageLogger,将上下文信息塞入
 
 ///NOTE:
@@ -74,6 +78,7 @@
  * @param program_name  二进制程序名
  * @return 是否初始化成功，当返回值为0表示成功
  */
+
 int kiran_log_qt5_init(const QString& config,
                        const QString& cname,
                        const QString& project_name,
