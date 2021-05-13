@@ -19,7 +19,7 @@ find_package(Qt5 COMPONENTS Core)
 find_package(PkgConfig REQUIRED)
 pkg_search_module(ZLOG REQUIRED zlog)
 
-add_library(${PROJECT_NAME} SHARED src/log.cpp src/log.h include/log_i.h)
+add_library(${PROJECT_NAME} SHARED src/log.cpp src/log.h include/log-i.h)
 set_target_properties(${PROJECT_NAME} PROPERTIES
         VERSION   ${KIRAN_LOG_QT5_VERSION}
         SOVERSION ${KIRAN_LOG_QT5_API_VERSION})

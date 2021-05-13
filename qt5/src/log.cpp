@@ -1,5 +1,5 @@
 #include "log.h"
-#include "log_i.h"
+#include "log-i.h"
 
 #include <zlog_ex.h>
 #include <QMutex>
