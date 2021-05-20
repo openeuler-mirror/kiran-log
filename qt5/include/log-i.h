@@ -55,19 +55,19 @@
 #define KLOG_COUT(format, ...)             \
     do                                      \
     {                                       \
-        dzlog_cout(format, ##__VAR_ARGS__); \
+        dzlog_cout(format, ##__VA_ARGS__); \
     } while (0);
 
 #define KLOG_CSYS(format, ...)             \
     do                                      \
     {                                       \
-        dzlog_csys(format, ##__VAR_ARGS__); \
+        dzlog_csys(format, ##__VA_ARGS__); \
     } while (0);
 
 #define KLOG_CERR(format, ...)             \
     do                                      \
     {                                       \
-        dzlog_cerr(format, ##__VAR_ARGS__); \
+        dzlog_cerr(format, ##__VA_ARGS__); \
     } while (0);
 
 /**
