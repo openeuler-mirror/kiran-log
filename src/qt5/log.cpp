@@ -1,14 +1,13 @@
-#include "log.h"
-#include "log-i.h"
+#include "src/qt5/log.h"
 
 #include <zlog_ex.h>
 #include <QMutex>
 #include <iostream>
 
-int kiran_log_qt5_init(const QString& config,
-                       const QString& cname,
-                       const QString& project_name,
-                       const QString& program_name)
+int klog_gtk3_init(const QString& config,
+                   const QString& cname,
+                   const QString& project_name,
+                   const QString& program_name)
 {
     return Log::instance()->init(config, cname, project_name, program_name);
 }
@@ -53,7 +52,7 @@ int Log::init(const QString& config, const QString& cname, const QString& projec
         return 0;
     }
 
-    if (dzlog_init_ex(config.isEmpty()?nullptr:config.toLatin1().data(),
+    if (dzlog_init_ex(config.isEmpty() ? nullptr : config.toLatin1().data(),
                       cname.toLatin1().data(),
                       projectName.toLatin1().data(),
                       programName.toLatin1().data()) != 0)
