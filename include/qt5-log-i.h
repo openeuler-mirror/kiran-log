@@ -1,13 +1,16 @@
-//
-// Created by lxh on 2021/4/30.
-//
+/**
+ * @file          /kiran-log/include/qt5/log-i.h
+ * @brief         
+ * @author        tangjie02 <tangjie02@kylinos.com.cn>
+ * @copyright (c) 2020 KylinSec. All rights reserved. 
+ */
 
 #ifndef KIRAN_LOG_QT5_INCLUDE_LOG_I_H_
 #define KIRAN_LOG_QT5_INCLUDE_LOG_I_H_
 
+#include <zlog_ex.h>
 #include <QDebug>
 #include <QtGlobal>
-#include <zlog_ex.h>
 
 ///NOTE:可见qlogging.h，未定义"QT_MESSAGELOGCONTEXT"将导致QDebug上下文没文件、行号、函数等信息,为了不影响Qt流程，直接使用QMessageLogger,将上下文信息塞入
 
@@ -53,20 +56,20 @@
 #define KLOG_DEBUG_S QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).debug
 
 #define KLOG_COUT(format, ...)             \
-    do                                      \
-    {                                       \
+    do                                     \
+    {                                      \
         dzlog_cout(format, ##__VA_ARGS__); \
     } while (0);
 
 #define KLOG_CSYS(format, ...)             \
-    do                                      \
-    {                                       \
+    do                                     \
+    {                                      \
         dzlog_csys(format, ##__VA_ARGS__); \
     } while (0);
 
 #define KLOG_CERR(format, ...)             \
-    do                                      \
-    {                                       \
+    do                                     \
+    {                                      \
         dzlog_cerr(format, ##__VA_ARGS__); \
     } while (0);
 
@@ -79,9 +82,9 @@
  * @return 是否初始化成功，当返回值为0表示成功
  */
 
-int kiran_log_qt5_init(const QString& config,
-                       const QString& cname,
-                       const QString& project_name,
-                       const QString& program_name);
+int klog_qt5_init(const QString& config,
+                   const QString& cname,
+                   const QString& project_name,
+                   const QString& program_name);
 
 #endif  //KIRAN_LOG_QT5_INCLUDE_LOG_I_H_

@@ -1,14 +1,22 @@
-#include "log.h"
-#include "log-i.h"
+#include "src/qt5/log.h"
 
 #include <zlog_ex.h>
+#include <QLoggingCategory>
 #include <QMutex>
 #include <iostream>
 
-int kiran_log_qt5_init(const QString& config,
-                       const QString& cname,
-                       const QString& project_name,
-                       const QString& program_name)
+static QMap<QtMsgType, zlog_level> msgDescMap = {
+    {QtDebugMsg, ZLOG_LEVEL_DEBUG},
+    {QtWarningMsg, ZLOG_LEVEL_WARN},
+    {QtCriticalMsg, ZLOG_LEVEL_ERROR},
+    {QtFatalMsg, ZLOG_LEVEL_FATAL},
+    {QtInfoMsg, ZLOG_LEVEL_INFO},
+};
+
+int klog_qt5_init(const QString& config,
+                  const QString& cname,
+                  const QString& project_name,
+                  const QString& program_name)
 {
     return Log::instance()->init(config, cname, project_name, program_name);
 }
@@ -53,7 +61,7 @@ int Log::init(const QString& config, const QString& cname, const QString& projec
         return 0;
     }
 
-    if (dzlog_init_ex(config.isEmpty()?nullptr:config.toLatin1().data(),
+    if (dzlog_init_ex(config.isEmpty() ? nullptr : config.toLatin1().data(),
                       cname.toLatin1().data(),
                       projectName.toLatin1().data(),
                       programName.toLatin1().data()) != 0)
@@ -63,23 +71,26 @@ int Log::init(const QString& config, const QString& cname, const QString& projec
     }
 
     qInstallMessageHandler(messageHandler);
+
+    //输出所有的分类类别，Qt日志框架不做过滤，交由zlog的配置文件进行配置过滤
+    QLoggingCategory* loggingCategory = QLoggingCategory::defaultCategory();
+    for (auto iter = msgDescMap.begin(); iter != msgDescMap.end(); iter++)
+    {
+        if (!loggingCategory->isEnabled(iter.key()))
+        {
+            loggingCategory->setEnabled(iter.key(), true);
+        }
+    }
+
     m_isInited = true;
     return 0;
 }
 
 void Log::appendLog(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
-    static QMap<QtMsgType, zlog_level> msgDescMap = {
-        {QtDebugMsg, ZLOG_LEVEL_DEBUG},
-        {QtWarningMsg, ZLOG_LEVEL_WARN},
-        {QtCriticalMsg, ZLOG_LEVEL_ERROR},
-        {QtFatalMsg, ZLOG_LEVEL_FATAL},
-        {QtInfoMsg, ZLOG_LEVEL_INFO},
-    };
-
     if (!isInited())
     {
-        std::cerr << "not initialized,call Log::init" << std::endl;
+        std::cerr << "not initialized,call klog_qt5_init first" << std::endl;
         std::cerr << msg.toStdString() << std::endl;
         return;
     }
