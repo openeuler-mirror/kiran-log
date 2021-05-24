@@ -24,6 +24,8 @@ target_link_libraries(${GTK3_TARGET_NAME} PRIVATE
 # qt5
 add_executable(${QT5_TARGET_NAME} test-qt5.cpp)
 
+find_package(Qt5 COMPONENTS Core)
+
 target_include_directories(${QT5_TARGET_NAME} PUBLIC
                            ${PROJECT_SOURCE_DIR}
                            ${PROJECT_SOURCE_DIR}/include
@@ -31,6 +33,7 @@ target_include_directories(${QT5_TARGET_NAME} PUBLIC
                            ${GTEST_INCLUDE_DIRS})           
 
 target_link_libraries(${QT5_TARGET_NAME} PRIVATE
+                      Qt5::Core
                       ${GTEST_LIBRARIES}
                       klog-qt5)
 

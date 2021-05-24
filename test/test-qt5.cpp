@@ -12,7 +12,7 @@
 #define INFO_MESSAGE "This is a info."
 #define WARNING_MESSAGE "This is a warning."
 
-TEST(GTK3Test, GTK3LogTest)
+TEST(Qt5Test, Qt5LogTest)
 {
     KLOG_DEBUG(DEBUG_MESSAGE);
     KLOG_INFO(INFO_MESSAGE);
@@ -21,7 +21,7 @@ TEST(GTK3Test, GTK3LogTest)
 
 int main(int argc, char **argv)
 {
-    if (klog_gtk3_init("", "kylinsec-session", PROJECT_NAME, "klog-qt5-tests") != 0)
+    if (klog_qt5_init("", "kylinsec-session", PROJECT_NAME, "klog-qt5-tests") != 0)
     {
         std::cerr << "klog init failed." << std::endl;
     }

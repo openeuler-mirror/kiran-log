@@ -82,7 +82,7 @@
  * @return 是否初始化成功，当返回值为0表示成功
  */
 
-int klog_gtk3_init(const QString& config,
+int klog_qt5_init(const QString& config,
                    const QString& cname,
                    const QString& project_name,
                    const QString& program_name);
