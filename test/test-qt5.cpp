@@ -11,12 +11,21 @@
 #define DEBUG_MESSAGE "This is a debug."
 #define INFO_MESSAGE "This is a info."
 #define WARNING_MESSAGE "This is a warning."
+#define ERROR_MESSAGE "This is a error."
 
 TEST(Qt5Test, Qt5LogTest)
 {
     KLOG_DEBUG(DEBUG_MESSAGE);
+    KLOG_DEBUG() << DEBUG_MESSAGE;
+
     KLOG_INFO(INFO_MESSAGE);
+    KLOG_INFO() << INFO_MESSAGE;
+
     KLOG_WARNING(WARNING_MESSAGE);
+    KLOG_WARNING() << WARNING_MESSAGE;
+
+    KLOG_ERROR(ERROR_MESSAGE);
+    KLOG_ERROR() << ERROR_MESSAGE;
 }
 
 int main(int argc, char **argv)

@@ -13,47 +13,13 @@
 #include <QtGlobal>
 
 ///NOTE:可见qlogging.h，未定义"QT_MESSAGELOGCONTEXT"将导致QDebug上下文没文件、行号、函数等信息,为了不影响Qt流程，直接使用QMessageLogger,将上下文信息塞入
-
-///NOTE:
-/// LOG_XX()    以c语言类似传参数，不支持Qt内部相关类直接打印输出，和qDebug("%s","hello world")使用方法一样
-/// LOG_XX_S()  以流的形式传递参数，支持Qt内部相关类直接打印输出，和qDeubg() << "hello world" << QString << QStringList使用方法一样
-
 #define __FILENAME__ (strrchr(__FILE__, '/') ? (strrchr(__FILE__, '/') + 1) : __FILE__)
 
-#define KLOG_FATAL(format, ...)                                                            \
-    do                                                                                     \
-    {                                                                                      \
-        QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).fatal(format, ##__VA_ARGS__); \
-    } while (0)
-#define KLOG_FATAL_S QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).fatal
-
-#define KLOG_ERROR(format, ...)                                                               \
-    do                                                                                        \
-    {                                                                                         \
-        QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).critical(format, ##__VA_ARGS__); \
-    } while (0)
-#define KLOG_ERROR_S QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).critical
-
-#define KLOG_WARNING(format, ...)                                                            \
-    do                                                                                       \
-    {                                                                                        \
-        QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).warning(format, ##__VA_ARGS__); \
-    } while (0)
-#define KLOG_WARNING_S QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).warning
-
-#define KLOG_INFO(format, ...)                                                            \
-    do                                                                                    \
-    {                                                                                     \
-        QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).info(format, ##__VA_ARGS__); \
-    } while (0)
-#define KLOG_INFO_S QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).info
-
-#define KLOG_DEBUG(format, ...)                                                            \
-    do                                                                                     \
-    {                                                                                      \
-        QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).debug(format, ##__VA_ARGS__); \
-    } while (0)
-#define KLOG_DEBUG_S QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).debug
+#define KLOG_FATAL   QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).fatal
+#define KLOG_ERROR   QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).critical
+#define KLOG_WARNING QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).warning
+#define KLOG_INFO    QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).info
+#define KLOG_DEBUG   QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).debug
 
 #define KLOG_COUT(format, ...)             \
     do                                     \
@@ -81,7 +47,6 @@
  * @param program_name  二进制程序名
  * @return 是否初始化成功，当返回值为0表示成功
  */
-
 int klog_qt5_init(const QString& config,
                    const QString& cname,
                    const QString& project_name,
