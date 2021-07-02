@@ -1,6 +1,29 @@
+/**
+ * @Copyright (C) 2020 ~ 2021 KylinSec Co., Ltd. 
+ *
+ * Author:     liuxinhao <liuxinhao@kylinos.com.cn>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; If not, see <http: //www.gnu.org/licenses/>. 
+ */
+
 #include "src/qt5/log.h"
 
+#ifdef ENABLE_ZLOG_EX
 #include <zlog_ex.h>
+#else
+#include <zlog.h>
+#endif
 #include <QLoggingCategory>
 #include <QMutex>
 #include <iostream>
@@ -61,10 +84,16 @@ int Log::init(const QString& config, const QString& cname, const QString& projec
         return 0;
     }
 
-    if (dzlog_init_ex(config.isEmpty() ? nullptr : config.toLatin1().data(),
-                      cname.toLatin1().data(),
-                      projectName.toLatin1().data(),
-                      programName.toLatin1().data()) != 0)
+#ifdef ENABLE_ZLOG_EX
+    auto result = dzlog_init_ex(config.isEmpty() ? nullptr : config.toLatin1().data(),
+                                cname.toLatin1().data(),
+                                projectName.toLatin1().data(),
+                                programName.toLatin1().data());
+#else
+    auto result = dzlog_init(config.isEmpty() ? nullptr : config.toLatin1().data(), cname.toLatin1().data());
+#endif
+
+    if (result != 0)
     {
         std::cerr << "zlog init failed!" << std::endl;
         return -1;

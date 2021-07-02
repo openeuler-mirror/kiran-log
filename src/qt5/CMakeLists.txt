@@ -15,13 +15,22 @@ set_target_properties(${TARGET_NAME} PROPERTIES
         VERSION   ${PROJECT_VERSION}
         SOVERSION ${KIRAN_LOG_QT5_API_VERSION})
 
-target_link_libraries(${TARGET_NAME}
-        Qt5::Core
-        ${ZLOG_LIBRARIES})
+target_link_libraries(${TARGET_NAME} PRIVATE
+        Qt5::Core)
 
 target_include_directories(${TARGET_NAME} PRIVATE
                            ${PROJECT_SOURCE_DIR}/include
-                           ${PROJECT_SOURCE_DIR}/
-                           ${ZLOG_INCLUDE_DIRS})
+                           ${PROJECT_SOURCE_DIR}/)
+
+if (ENABLE_ZLOG_EX)
+        target_link_libraries(${TARGET_NAME} PRIVATE
+                              ${ZLOG_LIBRARIES})
+
+        target_include_directories(${TARGET_NAME} PRIVATE
+                                   ${ZLOG_INCLUDE_DIRS})
+else()
+        target_link_libraries(${TARGET_NAME} PRIVATE
+                              ${ZLOG_LIBRARY})
+endif()
 
 install(TARGETS ${TARGET_NAME} DESTINATION ${KLOG_LIBDIR})

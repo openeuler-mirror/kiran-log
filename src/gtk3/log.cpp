@@ -1,13 +1,29 @@
 /**
- * @file          /kiran-log/src/gtk3/log.cpp
- * @brief         
- * @author        tangjie02 <tangjie02@kylinos.com.cn>
- * @copyright (c) 2020 KylinSec. All rights reserved. 
+ * @Copyright (C) 2020 ~ 2021 KylinSec Co., Ltd. 
+ *
+ * Author:     tangjie02 <tangjie02@kylinos.com.cn>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; If not, see <http: //www.gnu.org/licenses/>. 
  */
 
 #include "src/gtk3/log.h"
 
+#ifdef ENABLE_ZLOG_EX
 #include <zlog_ex.h>
+#else
+#include <zlog.h>
+#endif
 
 int klog_gtk3_init(const std::string &config,
                    const std::string &cname,
@@ -20,10 +36,14 @@ int klog_gtk3_init(const std::string &config,
     {
         is_init = true;
 
+#ifdef ENABLE_ZLOG_EX
         auto result = dzlog_init_ex(config.empty() ? NULL : config.c_str(),
                                     cname.c_str(),
                                     project_name.c_str(),
                                     program_name.c_str());
+#else
+        auto result = dzlog_init(config.empty() ? NULL : config.c_str(), cname.c_str());
+#endif
 
         Kiran::Log::global_init();
 

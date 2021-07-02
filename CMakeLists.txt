@@ -2,19 +2,20 @@ cmake_minimum_required(VERSION 3.5)
 
 project(kiran-log VERSION 1.0.0)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED on)
+list (APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
+find_package(KL REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(Qt5 COMPONENTS Core)
 
-pkg_search_module(ZLOG REQUIRED zlog)
+if (ENABLE_ZLOG_EX)
+      pkg_search_module(ZLOG REQUIRED zlog)
+else()
+      find_library(ZLOG_LIBRARY zlog)
+endif()
+
 pkg_search_module(GLIBMM REQUIRED glibmm-2.4)
 pkg_search_module(GTEST REQUIRED gtest)
-
-include(GNUInstallDirs)
-set(KLOG_INCLUDEDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
-set(KLOG_LIBDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 
 configure_file(config.h.in ${PROJECT_BINARY_DIR}/config.h)
 

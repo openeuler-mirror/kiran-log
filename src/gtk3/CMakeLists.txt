@@ -13,12 +13,21 @@ add_library(${TARGET_NAME} SHARED
 target_include_directories(${TARGET_NAME} PRIVATE
                            ${PROJECT_SOURCE_DIR}
                            ${PROJECT_SOURCE_DIR}/include
-                           ${GLIBMM_INCLUDE_DIRS}
-                           ${ZLOG_INCLUDE_DIRS})
+                           ${GLIBMM_INCLUDE_DIRS})
 
 target_link_libraries(${TARGET_NAME} PRIVATE
-                      ${GLIBMM_LIBRARIES}
-                      ${ZLOG_LIBRARIES})
+                      ${GLIBMM_LIBRARIES})
+
+if (ENABLE_ZLOG_EX)
+    target_include_directories(${TARGET_NAME} PRIVATE
+                               ${ZLOG_INCLUDE_DIRS})
+
+    target_link_libraries(${TARGET_NAME} PRIVATE
+                          ${ZLOG_LIBRARIES})
+else()
+    target_link_libraries(${TARGET_NAME} PRIVATE
+                          ${ZLOG_LIBRARY})
+endif()
 
 set_target_properties(${TARGET_NAME} PROPERTIES
                       VERSION ${PROJECT_VERSION}
