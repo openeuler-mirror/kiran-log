@@ -42,7 +42,7 @@ int klog_gtk3_init(const std::string &config,
                                     project_name.c_str(),
                                     program_name.c_str());
 #else
-        auto result = dzlog_init(config.empty() ? NULL : config.c_str(), cname.c_str());
+        auto result = dzlog_init(config.empty() ? "/etc/zlog.conf" : config.c_str(), cname.c_str());
 #endif
 
         Kiran::Log::global_init();

@@ -90,7 +90,7 @@ int Log::init(const QString& config, const QString& cname, const QString& projec
                                 projectName.toLatin1().data(),
                                 programName.toLatin1().data());
 #else
-    auto result = dzlog_init(config.isEmpty() ? nullptr : config.toLatin1().data(), cname.toLatin1().data());
+    auto result = dzlog_init(config.isEmpty() ? "/etc/zlog.conf" : config.toLatin1().data(), cname.toLatin1().data());
 #endif
 
     if (result != 0)

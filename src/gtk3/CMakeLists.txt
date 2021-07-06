@@ -22,8 +22,13 @@ if (ENABLE_ZLOG_EX)
     target_include_directories(${TARGET_NAME} PRIVATE
                                ${ZLOG_INCLUDE_DIRS})
 
+    target_compile_definitions(${TARGET_NAME} PRIVATE
+                               -DENABLE_ZLOG_EX)
+
     target_link_libraries(${TARGET_NAME} PRIVATE
                           ${ZLOG_LIBRARIES})
+
+   
 else()
     target_link_libraries(${TARGET_NAME} PRIVATE
                           ${ZLOG_LIBRARY})
