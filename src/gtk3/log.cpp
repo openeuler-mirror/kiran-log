@@ -73,7 +73,7 @@ Log::Log()
 {
 }
 
-Log *Log::instance_ = nullptr;
+Log *Log::instance_ = NULL;
 void Log::global_init()
 {
     instance_ = new Log();
@@ -83,7 +83,7 @@ void Log::global_init()
 void Log::global_deinit()
 {
     delete instance_;
-    instance_ = nullptr;
+    instance_ = NULL;
 }
 
 void Log::try_append(GLogLevelFlags log_level,

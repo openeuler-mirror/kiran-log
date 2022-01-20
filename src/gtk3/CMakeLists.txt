@@ -36,6 +36,6 @@ endif()
 
 set_target_properties(${TARGET_NAME} PROPERTIES
                       VERSION ${PROJECT_VERSION}
-                      SOVERSION 1)
+                      SOVERSION 2)
 
 install(TARGETS ${TARGET_NAME} DESTINATION ${KLOG_LIBDIR})

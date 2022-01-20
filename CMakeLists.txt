@@ -1,6 +1,13 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 2.8)
 
-project(kiran-log VERSION 1.0.0)
+if (POLICY CMP0048)
+  cmake_policy(SET CMP0048 NEW)
+  project(kiran-log VERSION 2.1.0)
+else ()
+  project(kiran-log)
+  set (PROJECT_VERSION 2.1.0)
+endif ()
+
 
 list (APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 

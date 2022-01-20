@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.2)
 
 # pc file
 file(GLOB PC_IN_FILES ./*.pc.in)

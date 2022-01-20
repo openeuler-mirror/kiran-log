@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 2.8)
 
 set(TARGET_NAME klog-qt5)
 
-set(KIRAN_LOG_QT5_API_VERSION 1)
+set(KIRAN_LOG_QT5_API_VERSION 2)
 
 file (GLOB QT5_H_FILES ./*.h)
 file (GLOB QT5_CPP_FILES ./*.cpp)

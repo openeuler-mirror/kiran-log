@@ -23,19 +23,22 @@
 #include <QMutex>
 #include <iostream>
 
-static QMap<QtMsgType, zlog_level> msgDescMap = {
-    {QtDebugMsg, ZLOG_LEVEL_DEBUG},
-    {QtWarningMsg, ZLOG_LEVEL_WARN},
-    {QtCriticalMsg, ZLOG_LEVEL_ERROR},
-    {QtFatalMsg, ZLOG_LEVEL_FATAL},
-    {QtInfoMsg, ZLOG_LEVEL_INFO},
-};
+static QMap<QtMsgType, zlog_level> msgDescMap;
 
 int klog_qt5_init(const QString& config,
                   const QString& cname,
                   const QString& project_name,
                   const QString& program_name)
 {
+    // 兼容KY3.2-8的版本，该版本无法使用初始化列表的方式
+    if (msgDescMap.size() == 0){
+        msgDescMap[QtDebugMsg] = ZLOG_LEVEL_DEBUG;
+        msgDescMap[QtWarningMsg] = ZLOG_LEVEL_WARN;
+        msgDescMap[QtCriticalMsg] = ZLOG_LEVEL_ERROR;
+        msgDescMap[QtFatalMsg] = ZLOG_LEVEL_FATAL;
+        msgDescMap[QtInfoMsg] = ZLOG_LEVEL_INFO;
+
+    }
     return Log::instance()->init(config, cname, project_name, program_name);
 }
 
@@ -80,7 +83,7 @@ int Log::init(const QString& config, const QString& cname, const QString& projec
     }
 
 #ifdef ENABLE_ZLOG_EX
-    auto result = dzlog_init_ex(config.isEmpty() ? nullptr : config.toLatin1().data(),
+    auto result = dzlog_init_ex(config.isEmpty() ? NULL : config.toLatin1().data(),
                                 cname.toLatin1().data(),
                                 projectName.toLatin1().data(),
                                 programName.toLatin1().data());
