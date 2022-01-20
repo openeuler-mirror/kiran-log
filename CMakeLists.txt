@@ -15,13 +15,18 @@ else()
 endif()
 
 pkg_search_module(GLIBMM REQUIRED glibmm-2.4)
-pkg_search_module(GTEST REQUIRED gtest)
+
+
 
 configure_file(config.h.in ${PROJECT_BINARY_DIR}/config.h)
 
 add_subdirectory(data)
 add_subdirectory(src)
-add_subdirectory(test)
+
+if (ENABLE_TEST)
+      pkg_search_module(GTEST REQUIRED gtest)
+      add_subdirectory(test)
+endif()
 
 install(FILES ${PROJECT_SOURCE_DIR}/include/qt5-log-i.h
               ${PROJECT_SOURCE_DIR}/include/gtk3-log-i.h

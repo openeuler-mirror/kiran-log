@@ -8,3 +8,4 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
 
 option (ENABLE_ZLOG_EX "Enable zlog extension" ON)
+option (ENABLE_TEST "Enable test" OFF)
