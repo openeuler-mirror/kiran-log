@@ -8,9 +8,11 @@ message(STATUS ${KLOG_LIBDIR})
 
 if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.7)
   set (CMAKE_CXX_FLAGS "-std=c++0x")
+  set (CXX_STANDARD_NEW OFF)
 else ()
   set(CMAKE_CXX_STANDARD 11)
   set(CMAKE_CXX_STANDARD_REQUIRED on)
+  set (CXX_STANDARD_NEW ON)
 endif()
 
 option (ENABLE_ZLOG_EX "Enable zlog extension" ON)

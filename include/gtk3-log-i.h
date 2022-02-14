@@ -134,6 +134,7 @@ private:
                          ##__VA_ARGS__);    \
     } while (0)
 
+#ifdef CXX_STANDARD_NEW
 #define KLOG_PROFILE(format, ...)                    \
     klog_gtk3_append(G_LOG_LEVEL_DEBUG,              \
                      __FILENAME__,                   \
@@ -147,3 +148,6 @@ private:
                                   __LINE__,          \
                                   "END " format,     \
                                   ##__VA_ARGS__); });
+#else
+#define KLOG_PROFILE(format, ...) KLOG_DEBUG(format, ##__VA_ARGS__)
+#endif
