@@ -2,5 +2,5 @@ Name: kiran-log-gtk3
 Description: kiran log library for gtk3
 Version: @PROJECT_VERSION@
 Requires: glibmm-2.4
-Libs: -L$@KLOG_LIBDIR@  -lklog-gtk3 -lzlog -lpthread
+Libs: -L$@KLOG_LIBDIR@  -lklog-gtk3 -lpthread
 Cflags: -I@KLOG_INCLUDEDIR@

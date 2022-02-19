@@ -15,12 +15,6 @@
 #ifndef KIRAN_LOG_QT5_INCLUDE_LOG_I_H_
 #define KIRAN_LOG_QT5_INCLUDE_LOG_I_H_
 
-#ifdef ENABLE_ZLOG_EX
-#include <zlog_ex.h>
-#else
-#include <zlog.h>
-#endif
-
 #include <QDebug>
 #include <QtGlobal>
 
@@ -33,30 +27,10 @@
 #define KLOG_INFO QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).info
 #define KLOG_DEBUG QMessageLogger(__FILENAME__, __LINE__, __FUNCTION__).debug
 
-#ifdef ENABLE_ZLOG_EX
-#define KLOG_COUT(format, ...)             \
-    do                                     \
-    {                                      \
-        dzlog_cout(format, ##__VA_ARGS__); \
-    } while (0);
-
-#define KLOG_CSYS(format, ...)             \
-    do                                     \
-    {                                      \
-        dzlog_csys(format, ##__VA_ARGS__); \
-    } while (0);
-
-#define KLOG_CERR(format, ...)             \
-    do                                     \
-    {                                      \
-        dzlog_cerr(format, ##__VA_ARGS__); \
-    } while (0);
-
-#else
 #define KLOG_COUT(format, ...)
 #define KLOG_CSYS(format, ...)
 #define KLOG_CERR(format, ...)
-#endif
+
 /**
  * @brief 初始化日志库，安装Qt日志输出回调
  * @param config        zlog配置文件
