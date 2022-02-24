@@ -37,4 +37,4 @@ else()
                               ${ZLOG_LIBRARY})
 endif()
 
-install(TARGETS ${TARGET_NAME} DESTINATION ${KLOG_LIBDIR})
+install(TARGETS ${TARGET_NAME} DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})

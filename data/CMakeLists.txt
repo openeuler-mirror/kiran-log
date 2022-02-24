@@ -7,5 +7,5 @@ foreach(PC_IN_FILE IN LISTS PC_IN_FILES)
     configure_file(${PC_IN_FILE} ${PROJECT_BINARY_DIR}/data/${PC_FILE})
 
     install(FILES ${PROJECT_BINARY_DIR}/data/${PC_FILE}
-            DESTINATION ${KLOG_LIBDIR}/pkgconfig)
+            DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/pkgconfig)
 endforeach()
