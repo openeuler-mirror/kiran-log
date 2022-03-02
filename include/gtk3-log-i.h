@@ -41,12 +41,14 @@ void klog_gtk3_append(GLogLevelFlags log_level,
 #define CONNECTION(text1, text2) text1##text2
 #define CONNECT(text1, text2) CONNECTION(text1, text2)
 
-class Defer
+#if __cplusplus > 201101L
+
+class KLogDefer
 {
 public:
-    Defer(std::function<void(std::string)> func, std::string fun_name) : func_(func),
-                                                                         fun_name_(fun_name) {}
-    ~Defer() { func_(fun_name_); }
+    KLogDefer(std::function<void(std::string)> func, std::string fun_name) : func_(func),
+                                                                             fun_name_(fun_name) {}
+    ~KLogDefer() { func_(fun_name_); }
 
 private:
     std::function<void(std::string)> func_;
@@ -54,7 +56,12 @@ private:
 };
 
 // helper macro for Defer class
-#define SCOPE_EXIT(block) Defer CONNECT(_defer_, __LINE__)([&](std::string _arg_function) block, __FUNCTION__)
+#define KLOG_SCOPE_EXIT(block) KLogDefer CONNECT(_defer_, __LINE__)([&](std::string _arg_function) block, __FUNCTION__)
+
+#else
+#define KLOG_SCOPE_EXIT(block)
+#endif
+
 #define __FILENAME__ (strrchr(__FILE__, '/') ? (strrchr(__FILE__, '/') + 1) : __FILE__)
 
 #define KLOG_FATAL(format, ...)            \
@@ -134,20 +141,16 @@ private:
                          ##__VA_ARGS__);    \
     } while (0)
 
-#ifdef CXX_STANDARD_NEW
-#define KLOG_PROFILE(format, ...)                    \
-    klog_gtk3_append(G_LOG_LEVEL_DEBUG,              \
-                     __FILENAME__,                   \
-                     __FUNCTION__,                   \
-                     __LINE__,                       \
-                     "START " format,                \
-                     ##__VA_ARGS__);                 \
-    SCOPE_EXIT({ klog_gtk3_append(G_LOG_LEVEL_DEBUG, \
-                                  __FILENAME__,      \
-                                  _arg_function,     \
-                                  __LINE__,          \
-                                  "END " format,     \
-                                  ##__VA_ARGS__); });
-#else
-#define KLOG_PROFILE(format, ...) KLOG_DEBUG(format, ##__VA_ARGS__)
-#endif
+#define KLOG_PROFILE(format, ...)                         \
+    klog_gtk3_append(G_LOG_LEVEL_DEBUG,                   \
+                     __FILENAME__,                        \
+                     __FUNCTION__,                        \
+                     __LINE__,                            \
+                     "START " format,                     \
+                     ##__VA_ARGS__);                      \
+    KLOG_SCOPE_EXIT({ klog_gtk3_append(G_LOG_LEVEL_DEBUG, \
+                                       __FILENAME__,      \
+                                       _arg_function,     \
+                                       __LINE__,          \
+                                       "END " format,     \
+                                       ##__VA_ARGS__); });
