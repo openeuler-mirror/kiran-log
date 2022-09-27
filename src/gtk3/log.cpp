@@ -13,12 +13,8 @@
  */
 
 #include "src/gtk3/log.h"
-
-#ifdef ENABLE_ZLOG_EX
-#include <zlog_ex.h>
-#else
 #include <zlog.h>
-#endif
+#include "lib/zlog-ex.h"
 
 int klog_gtk3_init(const std::string &config,
                    const std::string &cname,
@@ -31,14 +27,10 @@ int klog_gtk3_init(const std::string &config,
     {
         is_init = true;
 
-#ifdef ENABLE_ZLOG_EX
         auto result = dzlog_init_ex(config.empty() ? NULL : config.c_str(),
                                     cname.c_str(),
                                     project_name.c_str(),
                                     program_name.c_str());
-#else
-        auto result = dzlog_init(config.empty() ? "/etc/zlog.conf" : config.c_str(), cname.c_str());
-#endif
 
         Kiran::Log::global_init();
 
