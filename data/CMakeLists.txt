@@ -1,11 +1,16 @@
-
 # pc file
 file(GLOB PC_IN_FILES ./*.pc.in)
 
 foreach(PC_IN_FILE IN LISTS PC_IN_FILES)
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" PC_FILE ${PC_IN_FILE})
-    configure_file(${PC_IN_FILE} ${PROJECT_BINARY_DIR}/data/${PC_FILE})
+  string(REGEX REPLACE ".+/(.+)\\..*" "\\1" PC_FILE ${PC_IN_FILE})
+  configure_file(${PC_IN_FILE} ${PROJECT_BINARY_DIR}/data/${PC_FILE})
 
-    install(FILES ${PROJECT_BINARY_DIR}/data/${PC_FILE}
-            DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/pkgconfig)
+  install(FILES ${PROJECT_BINARY_DIR}/data/${PC_FILE}
+          DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/pkgconfig)
 endforeach()
+
+install(
+  FILES ${PROJECT_SOURCE_DIR}/data/zlog.conf
+  PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ GROUP_WRITE WORLD_READ
+              WORLD_WRITE
+  DESTINATION ${CMAKE_INSTALL_FULL_SYSCONFDIR}/${PROJECT_NAME}/)
