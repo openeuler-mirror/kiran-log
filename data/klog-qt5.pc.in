@@ -2,5 +2,5 @@ Name: kiran-log-qt5
 Description: kiran log library for qt5
 Version: @PROJECT_VERSION@
 Requires:  Qt5Core
-Libs: -L$@KLOG_LIBDIR@  -lklog-qt5 -lzlog -lpthread
+Libs: -L@KLOG_LIBDIR@  -lklog-qt5 -lzlog -lpthread
 Cflags: -I@KLOG_INCLUDEDIR@
