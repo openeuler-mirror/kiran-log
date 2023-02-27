@@ -1,0 +1,7 @@
+variables:
+  RPM_BUILD_REQUIRES: make gcc-c++ cmake zlog-devel zlog qt5-qtbase-devel glibmm24-devel
+
+include:
+  - project: 'os/gitlab-ci'
+    ref: main
+    file: '/cmake/cxx.gitlab-ci.yml'
